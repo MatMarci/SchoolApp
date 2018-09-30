@@ -11,7 +11,12 @@
       <meetings-page :username="authenticatedUsername"></meetings-page>
     </div>
     <div v-else>
-      <login-form @login="login($event)"></login-form>
+        <div v-if="isRegisterForm">
+            <login-form @login="login"></login-form>
+        </div>
+        <div v-else>
+            <register-form @backToAppForm="registerFormTurnOff()"></register-form>
+        </div>
     </div>
   </div>
 </template>
@@ -19,23 +24,29 @@
 <script>
     import "milligram";
     import LoginForm from "./LoginForm";
+    import RegisterForm from "./RegisterForm";
     import MeetingsPage from "./meetings/MeetingsPage";
 
     export default {
-        components: {LoginForm, MeetingsPage},
+        components: {LoginForm, RegisterForm, MeetingsPage},
         data() {
             return {
-                authenticatedUsername: ""
+                authenticatedUsername: "",
+                isRegisterForm: true,
             };
         },
         methods: {
-            login(user) {
-                this.authenticatedUsername = user.login;
+            login: function(userFromEvent, isRegisterFromEvent) {
+                debugger;
+                console.log(userFromEvent);
+                console.log(isRegisterFromEvent);
+                this.isRegisterForm = isRegisterFromEvent;
+                this.authenticatedUsername = userFromEvent.login;
             },
             logout() {
                 this.authenticatedUsername = '';
-            }
-        }
+            },
+        },
     };
 </script>
 
