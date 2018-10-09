@@ -6,10 +6,14 @@
         <input type="password" v-model="user.password">
         <button @click="meetingFormTurnOn()">{{ labelOfTheButton }}</button>
         <button @click="registerFormTurnOn()">{{ registerButton }}</button>
+        <button @click="callRestService()">RestApiTest</button>
+        <h3>{{ response }}</h3>
     </form>
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         props:
             ["buttonLabel"],
@@ -17,6 +21,8 @@
             return {
                 user: {},
                 isRegister: false,
+                response: [],
+                errors: []
             };
         },
         methods: {
@@ -36,7 +42,20 @@
                 console.log(isRegisterToEvent);
                 this.$emit("login", userToEvent, isRegisterToEvent);
             },
-
+            callRestService () {
+                debugger;
+                axios.get(`/api/hello`).then(response => {
+                    debugger;
+                    console.log(response.data);
+                    // JSON responses are automatically parsed.
+                    this.response = response.data
+                })
+                .catch(e => {
+                    debugger;
+                    console.log(e);
+                    this.errors.push(e)
+                })
+            }
         },
         computed: {
             labelOfTheButton() {

@@ -42,6 +42,8 @@
                 console.log(isRegisterFromEvent);
                 this.isRegisterForm = isRegisterFromEvent;
                 this.authenticatedUsername = userFromEvent.login;
+                console.log(this.isRegisterForm);
+                console.log(this.authenticatedUsername);
             },
             logout() {
                 this.authenticatedUsername = '';
